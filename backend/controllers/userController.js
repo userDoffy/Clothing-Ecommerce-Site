@@ -19,7 +19,8 @@ const generateToken = (user) => {
 // Signup - Send OTP for Verification
 export const signup = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { name,email, password,role } = req.body;
+        
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
@@ -29,7 +30,7 @@ export const signup = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const otp = generateOTP();
 
-        const user = new User({ email, password: hashedPassword, otp, isVerified: false });
+        const user = new User({ name,email, password: hashedPassword,role, otp, isVerified: false });
         await user.save();
 
         await sendEmail(email, "Verify Your Account", `Your OTP is: ${otp}`);
@@ -39,6 +40,7 @@ export const signup = async (req, res) => {
             message: "OTP sent to email for verification",
         });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ status: "error", message: "Internal Server Error" });
     }
 };

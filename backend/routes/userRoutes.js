@@ -1,10 +1,12 @@
 import express from 'express';
-import { signup, login,logout,reset_password,forget_password } from '../controllers/userController.js';
+import { signup, login,logout,resetPassword,forgetPassword,verifyOTP,verifyLoginOTP } from '../controllers/userController.js';
 
 const router = express.Router();
 
 // Route for user signup
 router.post('/signup', signup);
+
+router.post('/verifyotp',verifyOTP)
 
 // Route for user login
 router.post('/login', login);
@@ -13,9 +15,9 @@ router.post('/login', login);
 router.post('/logout',logout);
 
 // Route for password reset
-router.post('/reset_password',reset_password);
+router.post('/reset_password',resetPassword);
 
 // Route for password forget
-router.post('/forget_password',forget_password);
+router.post('/forget_password',forgetPassword);
 
-module.exports = router;
+export default router
